@@ -21,8 +21,38 @@ app.use(session({
 app.use(flash());
 
 app.get('/', (req, res) =>{
-  console.log('App Running...');
-  res.send('Running!');
+  res.render('index');
+});
+
+app.post("/form", (req, res) => {
+  var {email, name, points} = req.body;
+
+  var emailError;
+  var pointsError;
+  var nameError;
+
+  if (email == undefined || email == "") {
+    emailError = "Email cannot be empty";
+  }
+
+  if (points == undefined || points < 20) {
+    pointsError = "Points cannot be empty or smaller than 20";
+  }
+
+  if (name == undefined || name == "") {
+    nameError = "Name cannot be empty"
+  }
+
+  if (name.length < 4) {
+    nameError = "Name cannot be smaller than four characters";
+  }
+
+  if (emailError != undefined || pointsError != undefined || nameError != 
+      undefined) {
+        res.redirect('/');
+      } else {
+        res.send('You are all done!');
+      }
 });
 
 app.listen(8888, (req, res) => {
